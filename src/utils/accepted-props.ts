@@ -76,7 +76,7 @@ const checkShopProps = (data: Partial<MyShop>): Partial<MyShop> => {
 };
 
 const checkOrderProps = (data: Partial<Order>): Partial<Order> => {
-  const props = ['car'];
+  const props = ['car','status'];
   checkProps(props, Object.keys(data));
   return data;
 };
