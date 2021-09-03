@@ -49,7 +49,7 @@ export class OrderRepository {
       const document = await this.orderDb.findOne({ _id: id }).populate([
         {
           path: 'user',
-          select: { name: true },
+          select: { name: true, phone: true },
         },
       ]);
 
