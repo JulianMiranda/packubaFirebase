@@ -11,6 +11,7 @@ export class Subcategory extends Document {
 
   @IsArray()
   deleteImages: string[];
+
   @IsString()
   category: string;
 
@@ -18,7 +19,7 @@ export class Subcategory extends Document {
   weight: number;
 
   @IsNumber()
-  value: number;
+  cost: number;
 
   @IsNumber()
   price: number;
@@ -28,4 +29,10 @@ export class Subcategory extends Document {
 
   @IsString()
   currency: string;
+
+  @IsNumber()
+  stock: number;
+
+  @IsArray()
+  aviableSizes: string[];
 }

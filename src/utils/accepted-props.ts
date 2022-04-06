@@ -64,7 +64,10 @@ const checkSubcategoriesProps = (
     'currency',
     'deleteImages',
     'weight',
-    'value',
+
+    'cost',
+    'stock',
+    'aviableSizes',
   ];
   checkProps(props, Object.keys(data));
   return data;
@@ -76,7 +79,7 @@ const checkShopProps = (data: Partial<MyShop>): Partial<MyShop> => {
 };
 
 const checkOrderProps = (data: Partial<Order>): Partial<Order> => {
-  const props = ['car','status'];
+  const props = ['car', 'status'];
   checkProps(props, Object.keys(data));
   return data;
 };
