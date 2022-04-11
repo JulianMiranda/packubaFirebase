@@ -4,6 +4,7 @@ import { schemaOptions } from '../utils/index';
 const SubcategorySchema = new mongoose.Schema(
   {
     name: { type: String, index: true },
+    description: [],
     category: {
       type: mongoose.Schema.Types.ObjectId,
       index: true,

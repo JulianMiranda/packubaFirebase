@@ -18,6 +18,9 @@ export class Subcategory extends Document {
   @IsNumber()
   weight: number;
 
+  @IsArray()
+  description: Record<string, string>[];
+
   @IsNumber()
   cost: number;
 

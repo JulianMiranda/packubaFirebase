@@ -64,7 +64,7 @@ const checkSubcategoriesProps = (
     'currency',
     'deleteImages',
     'weight',
-
+    'description',
     'cost',
     'stock',
     'aviableSizes',
