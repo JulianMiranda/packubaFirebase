@@ -10,6 +10,7 @@ import { MongoQuery } from '../../dto/mongo-query.dto';
 import { Subcategory } from '../../dto/subcategory.dto';
 import { ENTITY } from '../../enums/entity.enum';
 import { ImageRepository } from '../image/image.repository';
+import { NotificationsRepository } from '../notifications/notifications.repository';
 
 @Injectable()
 export class SubcategoryRepository {
@@ -18,6 +19,7 @@ export class SubcategoryRepository {
   constructor(
     @InjectModel('Subcategory') private subcategoryDb: Model<Subcategory>,
     private imageRepository: ImageRepository,
+    private notificationsRepository: NotificationsRepository,
   ) {}
 
   async getList(query: MongoQuery): Promise<any> {
@@ -188,6 +190,10 @@ export class SubcategoryRepository {
         throw new NotFoundException(
           `Could not find subcategory to update for id: ${id}`,
         );
+
+      if (data.cost) {
+        this.notificationsRepository.testAWS();
+      }
 
       return !!document;
     } catch (e) {

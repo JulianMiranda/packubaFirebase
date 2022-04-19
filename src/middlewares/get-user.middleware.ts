@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { FirebaseService } from 'src/services/firebase.service';
+import * as AWS from '@aws-sdk/client-sns';
 import { User } from '../dto/user.dto';
 import { ROLES } from '../enums/roles.enum';
 import { RoleRepository } from '../modules/role/role.repository';
@@ -16,6 +17,14 @@ export class GetUserMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: () => void) {
     const token = req.headers['x-token'];
+    /*     const client = new AWS.SNS({ region: 'us-east-1' });
+    const topic = await client.createTopic({
+      Name: 'arn:aws:sns:us-east-1:174491001014:app/GCM/NotificationFirebase',
+    });
+
+    topic.publish({
+      message: 'Hello!',
+    }); */
 
     if (!token) {
       next();

@@ -7,6 +7,7 @@ import { flatten } from 'src/utils/util';
 import { Order } from '../../dto/order.dto';
 import { User } from '../../dto/user.dto';
 import { NOTIFICATION } from '../../enums/notification.enum';
+import { AWSService } from '../../services/aws.service';
 
 @Injectable()
 export class NotificationsRepository {
@@ -15,6 +16,58 @@ export class NotificationsRepository {
     @InjectModel('User') private usersDb: Model<User>,
     @InjectModel('Order') private orderDb: Model<Order>,
   ) {}
+
+  async testAWS(): Promise<any> {
+    const usersJUN = await this.usersDb
+      .find({ status: true }, { notificationTokens: 1 })
+      .lean();
+
+    const notificationsArray = [];
+
+    for (const user of usersJUN) {
+      notificationsArray.push({
+        user: user._id,
+        title: 'Producto Actualizado',
+        body: `El PRoducto Tal ha sido Actualizado`,
+        identifier: user._id,
+        notificationTokens: user.notificationTokens,
+      });
+    }
+
+    const pushNotifications = notificationsArray.map((item) => {
+      const { title, body } = item;
+      return item.notificationTokens.map((token: string) => ({
+        notification: {
+          title,
+          body,
+        },
+
+        token,
+      }));
+    });
+
+    console.log(flatten(pushNotifications));
+
+    for (const batch of flatten(pushNotifications)) {
+      console.log('batch', batch);
+      AWSService.topicARN(batch.token, batch.notification);
+
+      /* AWSService.topicARN(
+        'dnWoy_m_QwO4RynUsRMTqC:APA91bEZIEVb65UhhMYk6OauBJMw_v9MDUPAdovxZ8_gYS6UdgUGaDQTvB5vuXTaDAzkpsSoO-rLwL2bYg4UY-4F-sxUnFUlGvs8k0AFf_S2-HmVpDEvzNHQ3E0r0gW1txX0Yt9tHqQT',
+        {
+          title: 'Titulo Not',
+          body: 'Body de la not',
+        },
+      ); */
+    }
+    /* AWSService.topicARN(
+      'dnWoy_m_QwO4RynUsRMTqC:APA91bEZIEVb65UhhMYk6OauBJMw_v9MDUPAdovxZ8_gYS6UdgUGaDQTvB5vuXTaDAzkpsSoO-rLwL2bYg4UY-4F-sxUnFUlGvs8k0AFf_S2-HmVpDEvzNHQ3E0r0gW1txX0Yt9tHqQT',
+      {
+        title: 'Titulo Not',
+        body: 'Body de la not',
+      },
+    ); */
+  }
 
   async newOrder(type: NOTIFICATION, order: string): Promise<any> {
     try {

@@ -40,7 +40,7 @@ export class SubcategoryController {
     delete data.images;
     return this.subcategoryRepository.create(data, images);
   }
-  @UseGuards(AuthenticationGuard)
+
   @Put('/update/:id')
   @UsePipes(new AcceptedProps(ENTITY.SUBCATEGORY))
   update(
