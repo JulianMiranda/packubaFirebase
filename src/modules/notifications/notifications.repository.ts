@@ -35,7 +35,7 @@ export class NotificationsRepository {
     }
 
     const pushNotifications = notificationsArray.map((item) => {
-      const { title, body } = item;
+      const { title, body, user } = item;
       return item.notificationTokens.map((token: string) => ({
         notification: {
           title,
@@ -43,6 +43,7 @@ export class NotificationsRepository {
         },
 
         token,
+        user,
       }));
     });
 
